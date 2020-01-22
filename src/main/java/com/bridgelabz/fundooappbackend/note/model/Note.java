@@ -13,7 +13,11 @@ import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 import com.bridgelabz.fundooappbackend.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+/**********************************************************************************************************
+ * @author :Pramila Tawari 
+ * Purpose :Note Model
+ *
+ *********************************************************************************************************/
 @Component
 @Entity
 @Table(name = "noteDetails")

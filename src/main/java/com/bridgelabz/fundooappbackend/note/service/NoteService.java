@@ -6,6 +6,11 @@ import com.bridgelabz.fundooappbackend.note.dto.UpdateNoteDto;
 import com.bridgelabz.fundooappbackend.note.model.Note;
 import com.bridgelabz.fundooappbackend.note.response.Responses;
 
+/*********************************************************************************************************
+ * @author 	:Pramila Mangesh Tawari
+ * Purpose	:Note Service Interface
+ *
+ ***********************************************************************************************************/
 public interface NoteService {
 	public Responses addNewNote(NoteDto noteDto,String token);
 	public Responses updateNote(UpdateNoteDto updateNoteDto, String token); 
@@ -13,4 +18,5 @@ public interface NoteService {
 	public Responses findNote(int id,String token);
 	public List<Note> showUserNotes(int id,String token);
 	public List<Note> getAllNotes(@RequestHeader String token);
+	public List<Note> sortByDescription(String token);
 }

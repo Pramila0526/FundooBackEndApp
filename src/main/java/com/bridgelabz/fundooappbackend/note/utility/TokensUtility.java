@@ -6,7 +6,6 @@ import com.bridgelabz.fundooappbackend.user.exception.custom.TokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 /**********************************************************************************************************
  * @author :Pramila Tawari 
  * Purpose :Class For Generating the Token

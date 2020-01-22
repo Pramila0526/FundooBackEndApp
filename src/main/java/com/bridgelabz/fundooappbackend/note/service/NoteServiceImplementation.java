@@ -15,7 +15,12 @@ import com.bridgelabz.fundooappbackend.user.exception.custom.TokenException;
 import com.bridgelabz.fundooappbackend.user.exception.custom.UserNotFoundException;
 import com.bridgelabz.fundooappbackend.user.model.User;
 import com.bridgelabz.fundooappbackend.user.repository.UserRepository;
-import org.springframework.data.domain.Sort;
+
+/******************************************************************************************************************
+ * @author 	:Pramila Mangesh Tawari
+ * Purpose	:To perform Operations on Note
+ *
+ *********************************************************************************************************/
 
 @Service
 public class NoteServiceImplementation implements NoteService {
@@ -32,6 +37,10 @@ public class NoteServiceImplementation implements NoteService {
 	@Autowired
 	private UserRepository repository;
 
+	/**
+	 * @return  Function to add a New Note
+	 *
+	 */
 	public Responses addNewNote(NoteDto noteDto, String token) {
 		Note note = mapper.map(noteDto, Note.class);
 		String usermail = tokenUtility.getUserToken(token);
@@ -43,11 +52,18 @@ public class NoteServiceImplementation implements NoteService {
 		note = notesRepository.save(note); // Storing Users Data in Database
 		return new Responses(Messages.OK, null, Messages.NOTE_CREATED);
 	}
-
+	
+	/**
+	 * @return  Function to Update a note
+	 *
+	 */
 	public Responses updateNote(UpdateNoteDto updateNoteDto, String token) {
 		Note note = mapper.map(updateNoteDto, Note.class);
 		String useremail = tokenUtility.getUserToken(token);
 		User user = repository.findByEmail(useremail);
+		if (user == null) {
+			throw new UserNotFoundException(Messages.USER_NOT_EXISTING);
+		}
 		note.setUser(user);
 		updateNoteDto.setId(updateNoteDto.getId());
 		updateNoteDto.setTitle(updateNoteDto.getTitle());
@@ -56,6 +72,10 @@ public class NoteServiceImplementation implements NoteService {
 		return new Responses(Messages.OK, "Success", Messages.NOTE_UPDATED);
 	}
 
+	/**
+	 * @return  Function to Delete a note
+	 *
+	 */
 	public Responses deleteNote(int id, String token) {
 		// Note note = mapper.map(deleteNoteDto, Note.class); // Mapping new User data
 		// into the user Class
@@ -67,6 +87,10 @@ public class NoteServiceImplementation implements NoteService {
 		return new Responses(Messages.OK, null, Messages.NOTE_DELETED);
 	}
 
+	/**
+	 * @return  Function to Find a note
+	 *
+	 */
 	public Responses findNote(int id, String token) {
 		String usertoken = tokenUtility.getUserToken(token);
 		if (usertoken.isEmpty()) {
@@ -78,6 +102,10 @@ public class NoteServiceImplementation implements NoteService {
 		return new Responses(Messages.OK, "User Registration ", notesRepository.findById(id));
 	}
 
+	/**
+	 * @return  Function to Show a particular user's note
+	 *
+	 */
 	public List<Note> showUserNotes(int id, String token) {
 		String usertoken = tokenUtility.getUserToken(token);
 		if (usertoken.isEmpty()) {
@@ -90,7 +118,13 @@ public class NoteServiceImplementation implements NoteService {
 		return notesRepository.findAll(); // sh
 	}
 
+
+	/**
+	 * @return  Function to get all user's note
+	 *
+	 */
 	public List<Note> getAllNotes(String token) {
+		
 		String usertoken = tokenUtility.getUserToken(token);
 		if (usertoken.isEmpty()) {
 			throw new TokenException(Messages.INVALID_TOKEN);
@@ -99,20 +133,48 @@ public class NoteServiceImplementation implements NoteService {
 
 		List<Note> note = notesRepository.findAll().stream().filter(e -> e.getUser().getId() == user.getId())
 				.collect(Collectors.toList());
+		
+		System.out.println(note);
 		return note;
 	}
 
-	public List<Note> sortById(String token) {
+	/**
+	 * @return  Function to sort notes by Title
+	 *
+	 */
+	public List<Note> sortByTitle(String token) {
 		String usertoken = tokenUtility.getUserToken(token);
+		System.out.println(usertoken);
 		if (usertoken.isEmpty()) {
 			throw new TokenException(Messages.INVALID_TOKEN);
 		}
-		User user = repository.findById(usertoken);
+		User user = repository.findByEmail(usertoken);
+		System.out.println("user1"+user);
+		 user.getId();
 		List<Note> list = notesRepository.findAll().stream().filter(e -> e.getUser().getId() == user.getId())
 				.collect(Collectors.toList());
 		
 		list=list.stream().sorted((list1,list2)->list1.getTitle().compareTo(list2.getTitle())).collect(Collectors.toList());          
-
+		return list;
+	}
+	
+	/**
+	 * @return  Function to sort notes by Description
+	 *
+	 */
+	public List<Note> sortByDescription(String token) {
+		String usertoken = tokenUtility.getUserToken(token);
+		System.out.println(usertoken);
+		if (usertoken.isEmpty()) {
+			throw new TokenException(Messages.INVALID_TOKEN);
+		}
+		User user = repository.findByEmail(usertoken);
+		System.out.println("user1"+user);
+		 user.getId();
+		List<Note> list = notesRepository.findAll().stream().filter(e -> e.getUser().getId() == user.getId())
+				.collect(Collectors.toList());
+		
+		list=list.stream().sorted((list1,list2)->list1.getDescription().compareTo(list2.getDescription())).collect(Collectors.toList());        
 		return list;
 	}
 }

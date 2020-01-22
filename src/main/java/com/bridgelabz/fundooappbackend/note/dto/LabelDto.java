@@ -1,5 +1,9 @@
 package com.bridgelabz.fundooappbackend.note.dto;
-
+/**********************************************************************************************************
+ * @author :Pramila Tawari 
+ * Purpose :Label DTO
+ *
+ *********************************************************************************************************/
 public class LabelDto {
 	private String name;
 

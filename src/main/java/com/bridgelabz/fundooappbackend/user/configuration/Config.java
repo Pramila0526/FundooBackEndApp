@@ -18,7 +18,7 @@ public class Config
 	 * 				and the mapping process where matched property values are converted from a 
 	 * 				source to destination object.
 	 **/
-	
+
 	@Bean
 	public ModelMapper getMapper()
 	{

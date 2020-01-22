@@ -7,10 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
-
-@Component
+/*********************************************************************************************************
+ * @author 	:Pramila Mangesh Tawari
+ * Purpose	:Collaborate Model
+ *
+ ***********************************************************************************************************/
 @Entity
-@Table(name = "colDetails")
 public class Collaborate implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -23,7 +25,7 @@ public class Collaborate implements Serializable
 	private int noteId;
 	
 	@NotNull
-	private String email;
+	private String SenderMail;
 
 	public int getId() {
 		return id;
@@ -41,31 +43,34 @@ public class Collaborate implements Serializable
 		this.noteId = noteId;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getSenderMail() {
+		return SenderMail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setSenderMail(String senderMail) {
+		SenderMail = senderMail;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public Collaborate() {
-		super();
-	}
-
-	public Collaborate(int id, @NotNull int noteId, @NotNull String email) {
+	public Collaborate(int id, @NotNull int noteId, @NotNull String senderMail) {
 		super();
 		this.id = id;
 		this.noteId = noteId;
-		this.email = email;
+		SenderMail = senderMail;
+	}
+
+	public Collaborate() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
-		return "Collaborate [id=" + id + ", noteId=" + noteId + ", email=" + email + "]";
+		return "Collaborate [id=" + id + ", noteId=" + noteId + ", SenderMail=" + SenderMail + "]";
 	}
+
+	
 }
