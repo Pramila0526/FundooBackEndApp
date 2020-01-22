@@ -16,15 +16,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class TokenUtility 
 {
-	private final String SECRET_KEY = "secret"; // itz not a good pratice to hardcode in the program.inReal scenario
-												// write this in application.properties file.
+	private final String SECRET_KEY = "secret"; 
 
+	// Method to create the Token
 	public String createToken(String email)
 	{
 		return Jwts.builder().setSubject(email).setIssuedAt(new Date(System.currentTimeMillis()))
 				.signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
 	}
 
+	// Method to get User Token
 	public String getUserToken(String token) 
 	{
 		Claims claim = null;
@@ -32,9 +33,7 @@ public class TokenUtility
 		{
 			System.out.println("token :-" + token);
 			claim = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-
 			System.out.println(claim.getSubject());
-
 		} 
 		catch (Exception e)
 		{

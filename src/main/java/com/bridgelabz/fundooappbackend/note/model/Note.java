@@ -1,5 +1,6 @@
 package com.bridgelabz.fundooappbackend.note.model;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 import com.bridgelabz.fundooappbackend.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -41,6 +47,14 @@ public class Note implements Serializable {
 
 	@ManyToMany(mappedBy = "notes")
 	List<Label> labels;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
+	private Date noteRegistrationDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@UpdateTimestamp
+	private Date noteUpdatedDate;
 
 	public int getId() {
 		return id;
@@ -74,21 +88,42 @@ public class Note implements Serializable {
 		this.user = user;
 	}
 
-	@Override
-	public String toString() {
-		return "Note [id=" + id + ", title=" + title + ", description=" + description + ", user=" + user + "]";
+	public List<Label> getLabels() {
+		return labels;
 	}
 
-	public Note() {
-		super();
+	public void setLabels(List<Label> labels) {
+		this.labels = labels;
 	}
 
-	public Note(int id, @NotNull String title, @NotNull String description, User user) {
+	public Date getNoteRegistrationDate() {
+		return noteRegistrationDate;
+	}
+
+	public void setNoteRegistrationDate(Date noteRegistrationDate) {
+		this.noteRegistrationDate = noteRegistrationDate;
+	}
+
+	public Note(int id, @NotNull String title, @NotNull String description, User user, List<Label> labels,
+			@NotNull Date noteRegistrationDate) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.user = user;
+		this.labels = labels;
+		this.noteRegistrationDate = noteRegistrationDate;
+	}
+
+	public Note() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "Note [id=" + id + ", title=" + title + ", description=" + description + ", user=" + user + ", labels="
+				+ labels + ", noteRegistrationDate=" + noteRegistrationDate + "]";
 	}
 
 }

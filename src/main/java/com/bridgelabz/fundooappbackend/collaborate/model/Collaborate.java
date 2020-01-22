@@ -4,9 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import org.springframework.stereotype.Component;
 /*********************************************************************************************************
  * @author 	:Pramila Mangesh Tawari
  * Purpose	:Collaborate Model
@@ -64,13 +62,10 @@ public class Collaborate implements Serializable
 
 	public Collaborate() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
 		return "Collaborate [id=" + id + ", noteId=" + noteId + ", SenderMail=" + SenderMail + "]";
-	}
-
-	
+	}	
 }

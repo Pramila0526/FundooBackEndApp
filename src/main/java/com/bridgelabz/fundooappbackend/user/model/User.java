@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 import com.bridgelabz.fundooappbackend.note.model.Note;
@@ -35,12 +36,15 @@ public class User implements Serializable
 	private String lastname;
 	
 	@NotNull
+	@Email(regexp =  "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.(?:[A-Z]{2,}|com|org))+$")
 	private String email;
 	
 	@NotNull
+	// @Pattern(regexp="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*+\\/|!\"£$%^&*()#[\\]@~'?><,.=-_]).{6,20}", message="Password must be between 6 and 20 characters and contain one uppercase letter, one lowercase letter, one digit and one special character.")
 	private String password;
 	
 	@NotNull
+	//@Pattern(regexp = "{10}")
 	private long phonenumber;
 	
 	@NotNull

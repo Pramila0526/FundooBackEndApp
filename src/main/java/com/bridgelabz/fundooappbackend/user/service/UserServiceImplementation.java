@@ -1,6 +1,5 @@
 package com.bridgelabz.fundooappbackend.user.service;
 import java.util.List;
-
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.bridgelabz.fundooappbackend.user.configuration.PasswordConfiguration;
 import com.bridgelabz.fundooappbackend.user.dto.ForgotPasswordDto;
 import com.bridgelabz.fundooappbackend.user.dto.LoginDto;

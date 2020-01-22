@@ -5,7 +5,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.bridgelabz.fundooappbackend.note.dto.NoteDto;
-import com.bridgelabz.fundooappbackend.note.dto.UpdateNoteDto;
 import com.bridgelabz.fundooappbackend.note.message.Messages;
 import com.bridgelabz.fundooappbackend.note.model.Note;
 import com.bridgelabz.fundooappbackend.note.repository.NotesRepository;
@@ -57,7 +56,7 @@ public class NoteServiceImplementation implements NoteService {
 	 * @return  Function to Update a note
 	 *
 	 */
-	public Responses updateNote(UpdateNoteDto updateNoteDto, String token) {
+	public Responses updateNote(NoteDto updateNoteDto, String token) {
 		Note note = mapper.map(updateNoteDto, Note.class);
 		String useremail = tokenUtility.getUserToken(token);
 		User user = repository.findByEmail(useremail);
@@ -65,11 +64,12 @@ public class NoteServiceImplementation implements NoteService {
 			throw new UserNotFoundException(Messages.USER_NOT_EXISTING);
 		}
 		note.setUser(user);
-		updateNoteDto.setId(updateNoteDto.getId());
-		updateNoteDto.setTitle(updateNoteDto.getTitle());
-		updateNoteDto.setDescription(updateNoteDto.getDescription());
+		
+		note.setTitle(updateNoteDto.getTitle());
+		note.setDescription(updateNoteDto.getDescription());
+		
 		note = notesRepository.save(note);
-		return new Responses(Messages.OK, "Success", Messages.NOTE_UPDATED);
+		return new Responses(Messages.OK,null, Messages.NOTE_UPDATED);
 	}
 
 	/**
@@ -175,6 +175,26 @@ public class NoteServiceImplementation implements NoteService {
 				.collect(Collectors.toList());
 		
 		list=list.stream().sorted((list1,list2)->list1.getDescription().compareTo(list2.getDescription())).collect(Collectors.toList());        
+		return list;
+	}
+	
+	/**
+	 * @return  Function to sort notes by Date
+	 *
+	 */
+	public List<Note> sortByDate(String token) {
+		String usertoken = tokenUtility.getUserToken(token);
+		System.out.println(usertoken);
+		if (usertoken.isEmpty()) {
+			throw new TokenException(Messages.INVALID_TOKEN);
+		}
+		User user = repository.findByEmail(usertoken);
+		System.out.println("user1"+user);
+		 user.getId();
+		List<Note> list = notesRepository.findAll().stream().filter(e -> e.getUser().getId() == user.getId())
+				.collect(Collectors.toList());
+		
+		list=list.stream().sorted((list1,list2)->list1.getNoteRegistrationDate().compareTo(list2.getNoteRegistrationDate())).collect(Collectors.toList());        
 		return list;
 	}
 }

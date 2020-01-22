@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.fundooappbackend.note.dto.NoteDto;
-import com.bridgelabz.fundooappbackend.note.dto.UpdateNoteDto;
 import com.bridgelabz.fundooappbackend.note.response.Responses;
 import com.bridgelabz.fundooappbackend.note.service.NoteServiceImplementation;
 import com.bridgelabz.fundooappbackend.user.message.Messages;
@@ -44,7 +43,7 @@ public class NoteController
     
     // Updating a Note
     @PostMapping("/updatenote")
-  	public ResponseEntity<Responses> updateNote(@RequestBody UpdateNoteDto updateNoteDto,@RequestHeader String token)
+  	public ResponseEntity<Responses> updateNote(@RequestBody NoteDto updateNoteDto,@RequestHeader String token)
   	{
   		return new ResponseEntity<Responses>(notesServiceImplementation.updateNote(updateNoteDto, token), HttpStatus.OK); // give response for user 200
   	}
@@ -89,5 +88,12 @@ public class NoteController
 	public Response sortByDescription(@RequestHeader String token) 
 	{
 		return new Response(Messages.OK,null,notesServiceImplementation.sortByDescription(token));
+	}
+    
+ // Sorting notes By Date
+    @GetMapping("/sortbydate")
+	public Response sortByDate(@RequestHeader String token) 
+	{
+		return new Response(Messages.OK,null,notesServiceImplementation.sortByDate(token));
 	}
 }
